@@ -6,9 +6,15 @@ public class lecturaArchivos {
     JFileChooser fileChooser = new JFileChooser ();
     List <File> fileList = new ArrayList <File> ();
     List <String[]> archivos = new ArrayList <String[]> ();
-    List<String> stop = Arrays.asList("el","la","los","","");
+    List<String> stopwords = new ArrayList <String> ();
     
-    public void leerArchivos () {
+    public void leerArchivos () throws FileNotFoundException {
+        
+        Scanner sc = new Scanner (new FileReader("palabrasStop.txt"));        
+        while (sc.hasNext()) {
+            stopwords.add(sc.next());
+        }
+        
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         
         if (!fileChooser.isMultiSelectionEnabled()) {
@@ -48,9 +54,16 @@ public class lecturaArchivos {
     public void eliminarStop(List <String[]> archivos) {
         for (String[] a : archivos) {
             for (int i = 0; i < a.length; i++) {
-                
+                ArrayList<String> palabras = Stream.of(a[i].split(" ")).collect(Collectors.toCollection(ArrayList<String>::new));
+                palabras.removeAll(stopwords);
+
+                a[i] = palabras.stream().collect(Collectors.joining(" "));
             }
         }
+    }
+
+    public List<File> getFileList() {
+        return fileList;
     }
 
     public List<String[]> getArchivos() {
