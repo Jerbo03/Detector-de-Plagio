@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class lecturaArchivos {
     JFileChooser fileChooser = new JFileChooser ();
-    ArrayList <File> fileList = new ArrayList <File> ();
-    String[] paths;
-    
+    List <File> fileList = new ArrayList <File> ();
+    List <String[]> archivos = new ArrayList <String[]> ();
+    List<String> stop = Arrays.asList("el","la","los","","");
     
     public void leerArchivos () {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -18,24 +18,42 @@ public class lecturaArchivos {
         fileChooser.showOpenDialog(fileChooser);
         
         try {
+            
             for (File f : fileChooser.getSelectedFiles()) {
                 fileList.add(f);
             }
             
-            paths = new String[fileList.size()];
-            
-            for(int i = 0; i < fileList.size(); i++) {
-                paths[i] = fileList.get(i).getAbsolutePath();
-            }
-            
         } catch (NullPointerException e) {
-            System.out.println("No se ha seleccionado ningún archivo");
+            System.out.println("No se ha seleccionado ningún archivo.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
     
-    public String[] getPaths() {
-        return paths;
+    public void guardarArchivos () throws FileNotFoundException {
+        for(File f : fileList) {
+            Scanner sc = new Scanner(f);
+            String text = "";
+
+            while (sc.hasNextLine()) {
+                text += sc.nextLine().toLowerCase()+" ";
+            }
+
+            archivos.add(text.split("\\. "));
+        }
+        
+        eliminarStop(archivos);
+    }
+    
+    public void eliminarStop(List <String[]> archivos) {
+        for (String[] a : archivos) {
+            for (int i = 0; i < a.length; i++) {
+                
+            }
+        }
+    }
+
+    public List<String[]> getArchivos() {
+        return archivos;
     }
 }
