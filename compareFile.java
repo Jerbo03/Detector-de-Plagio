@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class compareFile {
   String[] text;
 
@@ -22,7 +20,7 @@ public class compareFile {
 
     int i = 0; // index for txt[]
     while ((N - i) >= (M - j)) {
-      if (text[j].equals(file[i])) {
+      if (text[j].equalsIgnoreCase(file[i])) {
           j++;
           i++;
       }
@@ -33,7 +31,7 @@ public class compareFile {
       }
 
       // mismatch after j matches
-      else if (i < N && !(text[j].equals(file[i]))) {
+      else if (i < N && !(text[j].equalsIgnoreCase(file[i]))) {
           // Do not match lps[0..lps[j-1]] characters,
           // they will match anyway
           if (j != 0)
@@ -54,7 +52,7 @@ public class compareFile {
 
       // the loop calculates lps[i] for i = 1 to M-1
       while (i < M) {
-          if (pat[i].equals(pat[len])) {
+          if (pat[i].equalsIgnoreCase(pat[len])) {
               len++;
               lps[i] = len;
               i++;
