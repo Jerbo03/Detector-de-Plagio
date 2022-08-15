@@ -6,26 +6,24 @@ public class lecturaArchivos {
     
     String[] DBPaths;
     String textPath;
-    List <String> stopwords;
+    HashMap <Integer, String> stopwords;
 
     public lecturaArchivos() {
         
-        stopwords = new ArrayList <String>();
-        
-        Scanner sc = null;;
+        stopwords = new HashMap <Integer, String>();
         try {
-            sc = new Scanner (new FileReader("palabrasStop.txt"));
-        } catch (FileNotFoundException e) {
+            Scanner sc = new Scanner (new FileReader("palabrasStop.txt"));        
+            while (sc.hasNext()) {
+                stopwords.put(stopwords.size(),sc.next());
+            }
+        } catch (FileNotFoundException e){
             e.printStackTrace();
-            return;
-        }        
-        while (sc.hasNext()) {
-            stopwords.add(sc.next());
         }
+        
     }
     
     public void addDbFile () {
-        JFileChooser fileChooser = new JFileChooser ();
+        JFileChooser fileChooser = new JFileChooser (".");
         ArrayList <File> fileList = new ArrayList <File> ();
         
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -51,7 +49,7 @@ public class lecturaArchivos {
     }
     
     public void setTextPath () {
-        JFileChooser fileChooser = new JFileChooser ();
+        JFileChooser fileChooser = new JFileChooser (".");
         
         fileChooser.showOpenDialog(fileChooser);
         
@@ -70,7 +68,7 @@ public class lecturaArchivos {
 
         while (sc.hasNext()) {
             String t = sc.next().toLowerCase().replaceAll("\\p{Punct}","");
-            if(stopwords.contains(t) || t.equals("")) continue;
+            if(stopwords.containsValue(t) || t.equals("")) continue;
 
             text += t+" ";
         }
