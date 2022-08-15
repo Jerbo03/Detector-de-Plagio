@@ -1,39 +1,81 @@
 import java.util.*;
 
 public class compareFile {
-  public double calcularPlagio(Scanner obj1, Scanner obj2) {
-    double promedio=0;
-    int n=0;
-    for( line1 in obj1) {
-      double max = 0;
-      for( line2 in obj2) {
-        double comparacion = compareSentence(line1,lin2);
-        if(comparacion>max) max=comparacion;
-        n++;
+  String[] text;
+
+  public compareFile(String[] t) {
+    this.text = t;
+  }
+
+  // KMP
+  public boolean evaluar(String[] file) {
+    int M = text.length;
+    int N = file.length;
+
+    // create lps[] that will hold the longest
+    // prefix suffix values for pattern
+    int lps[] = new int[M];
+    int j = 0; // index for pat[]
+
+    // Preprocess the pattern (calculate lps[] array)
+    computeLPSArray(text, M, lps);
+
+    int i = 0; // index for txt[]
+    while ((N - i) >= (M - j)) {
+      if (text[j].equals(file[i])) {
+          j++;
+          i++;
       }
-      promedio+=max;
+      if (j == M) {
+          System.out.println("Found pattern at index " + (i - j));
+          j = lps[j - 1];
+          return true;
+      }
+
+      // mismatch after j matches
+      else if (i < N && !(text[j].equals(file[i]))) {
+          // Do not match lps[0..lps[j-1]] characters,
+          // they will match anyway
+          if (j != 0)
+              j = lps[j - 1];
+          else
+              i = i + 1;
+      }
     }
-    promedio/=n;
-    return promedio;
+    return false;
   }
-  
-  public double compareSentence(String l1, String l2) {
-    int[] v1 = countWords(l1);
-    int[] v2 = countWords(l2);
-    return pruebaCoseno(v1, v2);
-  }
-  
-  public countWords(String sentence) {
-    String[] words = sentence.slpit(" ");
-    Hashtable<String, int> count = new Hashtable<String, int>();
-    for(int i=0; i<words.length(); i++) {
-      if(count.containsKey(words[i])) count.replace(words[i]),count.get(words[i]))++);
-      else count.put(words[i]),0);
-    }
-    return count.keys();
-  }
-  
-  public double pruebaCoseno(int[] v1, int[] v2) {
-    
+
+  void computeLPSArray(String[] pat, int M, int lps[])
+  {
+      // length of the previous longest prefix suffix
+      int len = 0;
+      int i = 1;
+      lps[0] = 0; // lps[0] is always 0
+
+      // the loop calculates lps[i] for i = 1 to M-1
+      while (i < M) {
+          if (pat[i].equals(pat[len])) {
+              len++;
+              lps[i] = len;
+              i++;
+          }
+          else // (pat[i] != pat[len])
+          {
+              // This is tricky. Consider the example.
+              // AAACAAAA and i = 7. The idea is similar
+              // to search step.
+              if (len != 0) {
+                  len = lps[len - 1];
+
+                  // Also, note that we do not increment
+                  // i here
+              }
+              else // if (len == 0)
+              {
+                  lps[i] = len;
+                  i++;
+              }
+          }
+      }
   }
 }
