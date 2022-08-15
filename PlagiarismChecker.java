@@ -1,37 +1,36 @@
 import java.io.FileNotFoundException;
-import java.util.*;
 
-public class PlagiarismChecker {
-  // Objetos
-  lecturaArchivos lector = new lecturaArchivos();
-  // Datos
-  List <String[]> bd = new ArrayList();
+public class test {
+    public static void main(String[] args) {        
+        final long startTime = System.currentTimeMillis();
+        
+        PlagiarismChecker checker = new PlagiarismChecker();
+        //lecturaArchivos lector = new lecturaArchivos();
 
-  public boolean loadFiles(String[] paths) throws FileNotFoundException {
-    for (String path : paths) {
-      try {
-        bd.add(lector.leer(path));
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
-        return false;
-      }
+        lecturaArchivos lector = new lecturaArchivos();
+        lector.addDbFile();
+
+        String[] paths = lector.DBPaths;
+        /*{
+            "./archivos/poema.txt",
+            "./archivos/laPalomaYLaHormiga.txt"
+        };*/
+
+        try {
+            checker.loadFiles(paths);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        lector.setTextPath();
+        String path = lector.textPath; //"./datos/test.txt";
+        
+        boolean[] r = checker.verifyPlagiarism(path).result;
+        for (boolean e : r)
+            System.out.println(e);
+
+        final long endTime = System.currentTimeMillis();
+
+        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
     }
-    return true;
-  }
-  
-  public ResultChecker verifyPlagiarism(String path) {
-    ResultChecker result = new ResultChecker(bd.size());
-
-    compareFile comparador = null;;
-    try {
-      comparador = new compareFile(lector.leer(path));
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-    for (int i=0; i < bd.size(); i++) {
-      result.addResult(comparador.evaluar(bd.get(i)));
-    }
-
-    return result;
-  }
 }
