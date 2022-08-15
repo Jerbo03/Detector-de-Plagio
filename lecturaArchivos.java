@@ -1,59 +1,64 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.*;
-
 import javax.swing.*;
 
 public class lecturaArchivos {
-    JFileChooser fileChooser = new JFileChooser ();
-    List <File> fileList = new ArrayList <File> ();
-    List <String> stopwords = new ArrayList <String> ();
     
-    List <String[]> archivos = new ArrayList <String[]> ();
-    String[] baseDatos;
-    
-    public void leerArchivos () throws FileNotFoundException {
+    String[] DBPaths;
+    String textPath;
+    List <String> stopwords;
+
+    public lecturaArchivos() throws FileNotFoundException {
+        
+        stopwords = new ArrayList <String>();
         
         Scanner sc = new Scanner (new FileReader("palabrasStop.txt"));        
         while (sc.hasNext()) {
             stopwords.add(sc.next());
         }
+    }
+    
+    public void addDbFile () {
+        JFileChooser fileChooser = new JFileChooser ();
+        ArrayList <File> fileList = new ArrayList <File> ();
         
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        
         if (!fileChooser.isMultiSelectionEnabled()) {
            fileChooser.setMultiSelectionEnabled(true);
         }
         
         fileChooser.showOpenDialog(fileChooser);
+        
         try {
             for (File f : fileChooser.getSelectedFiles()) {
                 fileList.add(f);
             }
+            
+            DBPaths = new String[fileList.size()];
+            
+            for(int i = 0; i < fileList.size(); i++) {
+                DBPaths[i] = fileList.get(i).getAbsolutePath();
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
     }
     
-    public void guardarArchivos () throws FileNotFoundException {
-        for(File f : fileList) {
-            String text = eliminarStop(f);
-            archivos.add(text.split(" "));
+    public void setTextPath () {
+        JFileChooser fileChooser = new JFileChooser ();
+        
+        fileChooser.showOpenDialog(fileChooser);
+        
+        try {
+            textPath = fileChooser.getSelectedFile().getAbsolutePath();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
     
-    public void guardarBD () throws FileNotFoundException {
-        String text = "";
+    public String[] leer(String path) throws FileNotFoundException {
         
-        for(File f : fileList) {
-            text += eliminarStop(f);
-        }
-        
-        baseDatos = text.split(" ");
-    }
-    
-    public String eliminarStop(File f) throws FileNotFoundException {
+        File f = new File(path);
         Scanner sc = new Scanner(f);
         String text = "";
 
@@ -63,20 +68,7 @@ public class lecturaArchivos {
 
             text += t+" ";
         }
-        
-        return text;
-    }
-    
-    public List<File> getFileList() {
-        return fileList;
-    }
-
-    public List<String[]> getArchivos() {
-        return archivos;
-    }
-
-    public String[] getBaseDatos() {
-        return baseDatos;
+        return text.split(" ");
     }
 }
 
