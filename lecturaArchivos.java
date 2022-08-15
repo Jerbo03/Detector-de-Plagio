@@ -6,15 +6,15 @@ public class lecturaArchivos {
     
     String[] DBPaths;
     String textPath;
-    HashMap <Integer, String> stopwords;
+    HashMap <String, Integer> stopwords;
 
     public lecturaArchivos() {
         
-        stopwords = new HashMap <Integer, String>();
+        stopwords = new HashMap <String, Integer>();
         try {
             Scanner sc = new Scanner (new FileReader("palabrasStop.txt"));        
             while (sc.hasNext()) {
-                stopwords.put(stopwords.size(),sc.next());
+                stopwords.put(sc.next(), stopwords.size());
             }
         } catch (FileNotFoundException e){
             e.printStackTrace();
@@ -67,12 +67,11 @@ public class lecturaArchivos {
         String text = "";
 
         while (sc.hasNext()) {
-            String t = sc.next().toLowerCase().replaceAll("\\p{Punct}","");
-            if(stopwords.containsValue(t) || t.equals("")) continue;
+            String t = sc.next().replaceAll("\\p{Punct}","");
+            if(stopwords.containsKey(t) || t.equals("")) continue;
 
             text += t+" ";
         }
         return text.split(" ");
     }
 }
-
