@@ -24,7 +24,6 @@ public class lecturaArchivos {
     
     public void addDbFile () {
         JFileChooser fileChooser = new JFileChooser (".");
-        ArrayList <File> fileList = new ArrayList <File> ();
         
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if (!fileChooser.isMultiSelectionEnabled()) {
@@ -34,14 +33,12 @@ public class lecturaArchivos {
         fileChooser.showOpenDialog(fileChooser);
         
         try {
-            for (File f : fileChooser.getSelectedFiles()) {
-                fileList.add(f);
-            }
-            
-            DBPaths = new String[fileList.size()];
-            
-            for(int i = 0; i < fileList.size(); i++) {
-                DBPaths[i] = fileList.get(i).getAbsolutePath();
+            File[] f = fileChooser.getSelectedFiles();  
+            int size = f.length;
+            DBPaths = new String[size];
+                    
+            for(int i = 0; i < size; i++) {
+                DBPaths[i] = f[i].getAbsolutePath();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
