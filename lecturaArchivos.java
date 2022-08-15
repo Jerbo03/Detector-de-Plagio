@@ -8,11 +8,17 @@ public class lecturaArchivos {
     String textPath;
     List <String> stopwords;
 
-    public lecturaArchivos() throws FileNotFoundException {
+    public lecturaArchivos() {
         
         stopwords = new ArrayList <String>();
         
-        Scanner sc = new Scanner (new FileReader("palabrasStop.txt"));        
+        Scanner sc = null;;
+        try {
+            sc = new Scanner (new FileReader("palabrasStop.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }        
         while (sc.hasNext()) {
             stopwords.add(sc.next());
         }

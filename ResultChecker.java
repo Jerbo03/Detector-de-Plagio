@@ -1,6 +1,6 @@
 public class ResultChecker {
-    boolean[] result;
-    int index;
+    public boolean[] result;
+    private int index;
 
     public ResultChecker(int n) {
         this.result = new boolean[n];

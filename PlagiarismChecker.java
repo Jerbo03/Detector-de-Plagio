@@ -1,15 +1,20 @@
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class PlagiarismChecker {
   // Objetos
   lecturaArchivos lector = new lecturaArchivos();
-
   // Datos
   List <String[]> bd = new ArrayList();
 
-  public boolean loadFiles(String[] paths) {
+  public boolean loadFiles(String[] paths) throws FileNotFoundException {
     for (String path : paths) {
-      if (!(bd.Add(lector.leer(path)))) return false;
+      try {
+        bd.add(lector.leer(path));
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+        return false;
+      }
     }
     return true;
   }
@@ -17,11 +22,15 @@ public class PlagiarismChecker {
   public ResultChecker verifyPlagiarism(String path) {
     ResultChecker result = new ResultChecker(bd.size());
 
-    compareFile comparador = new compareFile(lector.leer(path));
+    compareFile comparador = null;;
+    try {
+      comparador = new compareFile(lector.leer(path));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
     for (int i=0; i < bd.size(); i++) {
       result.addResult(comparador.evaluar(bd.get(i)));
     }
-
 
     return result;
   }
