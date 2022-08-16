@@ -1,7 +1,5 @@
 import java.io.FileNotFoundException;
 
-import javax.swing.text.StyledEditorKit;
-
 public class test {
     public static void main(String[] args) {
         final long startTime = System.currentTimeMillis();
