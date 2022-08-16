@@ -53,17 +53,6 @@ public class VentanaPrincipal extends JFrame {
         });
         BASE.add(btnCargar);
 
-        btnArchivoBD.setBackground(new java.awt.Color(153, 255, 255));
-        btnArchivoBD.setFont(new java.awt.Font("Oswald", 0, 12));
-        btnArchivoBD.setText("Ver Archivos en BS");
-        btnArchivoBD.setBounds(170, 130, 230, 40);
-        btnArchivoBD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnArchivoBDActionPerformed(evt);
-            }
-        });
-        BASE.add(btnArchivoBD);
-
         txaArea.setColumns(20);
         txaArea.setRows(5);
         txaArea.setBounds(100, 180, 260, 120);
@@ -90,11 +79,6 @@ public class VentanaPrincipal extends JFrame {
         for (String name : lector.getFileNames())
             nombres += name + "\n";
         txaArea.setText("Archivos: " + lector.DBPaths.length + "\n" +nombres);
-    }
-
-    private void btnArchivoBDActionPerformed(java.awt.event.ActionEvent evt) {
-        
-
     }
 
     private void btnEvaluarActionPerformed(java.awt.event.ActionEvent evt) {
