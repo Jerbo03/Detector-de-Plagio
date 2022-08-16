@@ -93,7 +93,7 @@ public class VentanaPrincipal extends JFrame {
         String[] names = lector.getFileNames();
         for (int i=0; i<lector.DBPaths.length; i++) {
             newText += names[i] + "\t" +
-            (result.result[i] ? "SE ENCONTRÓ PLAGIO" : "NO SE ENCONTRÓ PAGLIO")
+            (result.result[i] ? "SE ENCONTRO PLAGIO" : "NO SE ENCONTRO PAGLIO")
             + "\n";
         }
         txaArea.setText(newText);
