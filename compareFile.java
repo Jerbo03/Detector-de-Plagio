@@ -40,6 +40,7 @@ public class compareFile {
               i = i + 1;
       }
     }
+    System.out.println("Pattern not found");
     return false;
   }
 

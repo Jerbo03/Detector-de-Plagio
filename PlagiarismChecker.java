@@ -7,7 +7,7 @@ public class PlagiarismChecker {
   // Datos
   List <String[]> bd = new ArrayList();
 
-  public boolean loadFiles(String[] paths) throws FileNotFoundException {
+  public boolean loadFiles(String[] paths) {
     for (String path : paths) {
       try {
         bd.add(lector.leer(path));
@@ -29,7 +29,7 @@ public class PlagiarismChecker {
       e.printStackTrace();
     }
     for (int i=0; i < bd.size(); i++) {
-      result.addResult(comparador.evaluar(bd.get(i)));
+      result.addResult(i, comparador.evaluar(bd.get(i)));
     }
 
     return result;

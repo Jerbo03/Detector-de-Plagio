@@ -5,6 +5,9 @@ import javax.swing.*;
 
 public class VentanaPrincipal extends JFrame {
 
+    PlagiarismChecker checker = new PlagiarismChecker();
+    lecturaArchivos lector = new lecturaArchivos();
+
     public VentanaPrincipal() {
         setTitle("Detector");
         setSize(500, 500);
@@ -53,7 +56,7 @@ public class VentanaPrincipal extends JFrame {
         btnArchivoBD.setBackground(new java.awt.Color(153, 255, 255));
         btnArchivoBD.setFont(new java.awt.Font("Oswald", 0, 12));
         btnArchivoBD.setText("Ver Archivos en BS");
-        btnArchivoBD.setBounds(170, 130, 130, 40);
+        btnArchivoBD.setBounds(170, 130, 230, 40);
         btnArchivoBD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnArchivoBDActionPerformed(evt);
@@ -81,45 +84,35 @@ public class VentanaPrincipal extends JFrame {
     }
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {
-        JFileChooser fc = new JFileChooser();
-        fc.showOpenDialog(null);
-        File archivo = fc.getSelectedFile();
-
-        try {
-            FileReader fr = new FileReader(archivo);
-            BufferedReader br = new BufferedReader(fr);
-
-            JOptionPane.showMessageDialog(null, "Archivo leido correctamente");
-        } catch (Exception e) {
-
-        }
+        lector.addDbFile();
+        
+        String nombres = "";
+        for (String name : lector.getFileNames())
+            nombres += name + "\n";
+        txaArea.setText("Archivos: " + lector.DBPaths.length + "\n" +nombres);
     }
 
     private void btnArchivoBDActionPerformed(java.awt.event.ActionEvent evt) {
-      
-        JFileChooser fc = new JFileChooser();
-        fc.showOpenDialog(null);
-        File archivo = fc.getSelectedFile();
+        
 
-        try {
-            FileReader fr = new FileReader(archivo);
-            BufferedReader br = new BufferedReader(fr);
-           String texto = "";
-            String linea = "";
-            while (((linea = br.readLine()) != null)) {
-                    texto += linea + "\n";
-            }
-            txaArea.setText(texto);
-        } catch (Exception e) {
-
-        }
     }
 
     private void btnEvaluarActionPerformed(java.awt.event.ActionEvent evt) {
-        JOptionPane.showMessageDialog(null, "NO SE ENCONTRO PLAGIO, FELICIDADES!");
-        JOptionPane.showMessageDialog(null, "SE ENCONTRO PLAGIO!",
-                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+        ResultChecker result = new ResultChecker(lector.DBPaths.length);
+        result.restart();
+        
+        checker.loadFiles(lector.DBPaths);
+        lector.setTextPath();
+        result = checker.verifyPlagiarism(lector.textPath);
 
+        String newText = "";
+        String[] names = lector.getFileNames();
+        for (int i=0; i<lector.DBPaths.length; i++) {
+            newText += names[i] + "\t" +
+            (result.result[i] ? "SE ENCONTRÓ PLAGIO" : "NO SE ENCONTRÓ PAGLIO")
+            + "\n";
+        }
+        txaArea.setText(newText);
     }
 
     private javax.swing.JButton btnArchivoBD;

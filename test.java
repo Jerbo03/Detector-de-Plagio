@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-
 public class test {
     public static void main(String[] args) {
         final long startTime = System.currentTimeMillis();
@@ -20,11 +18,7 @@ public class test {
             "./archivos/laPalomaYLaHormiga.txt"
         };
 
-        try {
-            checker.loadFiles(paths);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        checker.loadFiles(paths);
         
         String path = "./datos/test.txt";
         boolean[] r = checker.verifyPlagiarism(path).result;

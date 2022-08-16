@@ -1,15 +1,16 @@
 public class ResultChecker {
     public boolean[] result;
-    private int index;
 
     public ResultChecker(int n) {
         this.result = new boolean[n];
-        this.index = 0;
     }
 
-    public void addResult(boolean r) {
-        if (this.index == this.result.length) return;
-        this.result[index] = r;
-        this.index++;
+    public void addResult(int i, boolean r) {
+        this.result[i] = r;
+    }
+
+    public void restart() {
+        for (int i=0; i<result.length; i++)
+            this.result[i] = false;
     }
 }

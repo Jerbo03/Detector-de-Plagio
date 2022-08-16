@@ -10,6 +10,8 @@ public class lecturaArchivos {
 
     JFileChooser fileChooser = new JFileChooser (".");
 
+    public Object restart;
+
     public lecturaArchivos() {
 
         stopwords = new HashMap <String, Integer>();
@@ -23,15 +25,8 @@ public class lecturaArchivos {
         }
         
     }
-    
-    public void getCurrentDirectory() {
-        File workingDirectory = new File(System.getProperty("user.dir"));
-        fileChooser.setCurrentDirectory(workingDirectory);
-    }
 
     public void addDbFile () {
-        getCurrentDirectory();
-
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if (!fileChooser.isMultiSelectionEnabled()) {
            fileChooser.setMultiSelectionEnabled(true);
@@ -53,8 +48,7 @@ public class lecturaArchivos {
     }
     
     public void setTextPath () {
-        getCurrentDirectory();
-        
+
         fileChooser.showOpenDialog(fileChooser);
         
         try {
@@ -77,5 +71,14 @@ public class lecturaArchivos {
             text += t+" ";
         }
         return text.split(" ");
+    }
+
+    public String[] getFileNames() {
+        String[] names = new String[DBPaths.length];
+        for(int i=0; i<DBPaths.length; i++) {
+            File f = new File(DBPaths[i]);
+            names[i] = f.getName();
+        }  
+        return names;
     }
 }
