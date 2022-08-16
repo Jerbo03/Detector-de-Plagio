@@ -131,8 +131,4 @@ public class VentanaPrincipal extends JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txaArea;
 
-    public static void main(String[] args) {
-        VentanaPrincipal mio = new VentanaPrincipal();
-        mio.setVisible(true);
-    }
 }
