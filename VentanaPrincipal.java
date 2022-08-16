@@ -23,7 +23,6 @@ public class VentanaPrincipal extends JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnCargar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
         txaArea = new javax.swing.JTextArea();
         btnArchivoBD = new javax.swing.JButton();
         btnEvaluar = new javax.swing.JButton();
@@ -55,8 +54,13 @@ public class VentanaPrincipal extends JFrame {
 
         txaArea.setColumns(20);
         txaArea.setRows(5);
-        txaArea.setBounds(100, 180, 260, 120);
-        jScrollPane1.setViewportView(txaArea);
+        txaArea.setBounds(50, 120, 360, 220);
+        txaArea.setEditable(false);
+
+        jScrollPane1 = new javax.swing.JScrollPane(txaArea);
+        jScrollPane1.setBounds(txaArea.getBounds());
+        jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        BASE.add(jScrollPane1);
         BASE.add(txaArea);
 
         btnEvaluar.setBackground(new java.awt.Color(255, 0, 0));
@@ -86,14 +90,15 @@ public class VentanaPrincipal extends JFrame {
         result.restart();
         
         checker.loadFiles(lector.DBPaths);
+
         lector.setTextPath();
         result = checker.verifyPlagiarism(lector.textPath);
 
         String newText = "";
         String[] names = lector.getFileNames();
         for (int i=0; i<lector.DBPaths.length; i++) {
-            newText += names[i] + "\t" +
-            (result.result[i] ? "SE ENCONTRO PLAGIO" : "NO SE ENCONTRO PAGLIO")
+            newText += names[i] + "\t\t" +
+            (result.result[i] ? "SE ENCONTRO PLAGIO" : "NO SE ENCONTRO PLAGIO")
             + "\n";
         }
         txaArea.setText(newText);

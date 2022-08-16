@@ -10,8 +10,6 @@ public class lecturaArchivos {
 
     JFileChooser fileChooser = new JFileChooser (".");
 
-    public Object restart;
-
     public lecturaArchivos() {
 
         stopwords = new HashMap <String, Integer>();
