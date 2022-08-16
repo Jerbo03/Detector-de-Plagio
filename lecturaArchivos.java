@@ -8,8 +8,10 @@ public class lecturaArchivos {
     String textPath;
     HashMap <String, Integer> stopwords;
 
+    JFileChooser fileChooser = new JFileChooser (".");
+
     public lecturaArchivos() {
-        
+
         stopwords = new HashMap <String, Integer>();
         try {
             Scanner sc = new Scanner (new FileReader("palabrasStop.txt"));        
@@ -22,9 +24,14 @@ public class lecturaArchivos {
         
     }
     
+    public void getCurrentDirectory() {
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        fileChooser.setCurrentDirectory(workingDirectory);
+    }
+
     public void addDbFile () {
-        JFileChooser fileChooser = new JFileChooser (".");
-        
+        getCurrentDirectory();
+
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if (!fileChooser.isMultiSelectionEnabled()) {
            fileChooser.setMultiSelectionEnabled(true);
@@ -46,7 +53,7 @@ public class lecturaArchivos {
     }
     
     public void setTextPath () {
-        JFileChooser fileChooser = new JFileChooser (".");
+        getCurrentDirectory();
         
         fileChooser.showOpenDialog(fileChooser);
         

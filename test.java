@@ -4,6 +4,14 @@ public class test {
     public static void main(String[] args) {
         final long startTime = System.currentTimeMillis();
         
+        test02();    
+    
+        final long endTime = System.currentTimeMillis();
+
+        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
+    }
+
+    public static void test01() {
         PlagiarismChecker checker = new PlagiarismChecker();
         //lecturaArchivos lector = new lecturaArchivos();
 
@@ -22,9 +30,10 @@ public class test {
         boolean[] r = checker.verifyPlagiarism(path).result;
         for (boolean e : r)
             System.out.println(e);
+    }
 
-        final long endTime = System.currentTimeMillis();
-
-        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
+    public static void test02() {
+        VentanaPrincipal mio = new VentanaPrincipal();
+        mio.setVisible(true);
     }
 }
